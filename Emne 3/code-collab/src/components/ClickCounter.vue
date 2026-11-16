@@ -1,0 +1,28 @@
+<template>
+	<div>
+		<p>Count: {{ count }}</p>
+		<p>Double: {{ doubled }}</p>
+		<button @click="increment">+1</button>
+		<button @click="reset">Reset</button>
+	</div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref } from "vue";
+
+const props = defineProps<{ initial?: number }>();
+const emit = defineEmits<{ inc: [value: number]; reset: [] }>();
+
+const count = ref(props.initial ?? 0);
+const doubled = computed(() => count.value * 2);
+
+function increment() {
+	count.value++;
+	emit("inc", count.value);
+}
+
+function reset() {
+	count.value = props.initial ?? 0;
+	emit("reset");
+}
+</script>
